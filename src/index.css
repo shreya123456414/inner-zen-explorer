@@ -2,41 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Mental Health Companion Design System - Mood Adaptive Colors */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Default Calm Theme - Soft Blues & Teals */
+    --background: 210 25% 98%;
+    --foreground: 215 25% 25%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 25% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 25% 25%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 200 85% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 200 85% 70%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 20% 95%;
+    --secondary-foreground: 215 25% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 15% 92%;
+    --muted-foreground: 215 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 175 60% 75%;
+    --accent-foreground: 0 0% 100%;
+    --accent-glow: 175 60% 85%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --healing: 160 50% 65%;
+    --healing-glow: 160 50% 80%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    --border: 210 25% 88%;
+    --input: 210 25% 88%;
+    --ring: 200 85% 55%;
+
+    --radius: 12px;
+
+    /* Mood-Based Gradients */
+    --gradient-calm: linear-gradient(135deg, hsl(200 85% 85%), hsl(175 60% 85%));
+    --gradient-happy: linear-gradient(135deg, hsl(50 85% 85%), hsl(200 85% 85%));
+    --gradient-stressed: linear-gradient(135deg, hsl(220 25% 45%), hsl(200 85% 55%));
+    --gradient-sad: linear-gradient(135deg, hsl(270 35% 45%), hsl(300 25% 55%));
+    --gradient-motivated: linear-gradient(135deg, hsl(160 50% 65%), hsl(120 40% 70%));
+
+    /* Shadows & Effects */
+    --shadow-soft: 0 4px 20px -4px hsl(200 85% 55% / 0.15);
+    --shadow-glow: 0 0 30px hsl(var(--primary-glow) / 0.3);
+    --shadow-healing: 0 0 25px hsl(var(--healing-glow) / 0.4);
+
+    /* Transitions */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Typography Scale */
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -92,6 +122,99 @@ All colors MUST be HSL.
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
+  /* Mood Theme Classes */
+  .theme-happy {
+    --background: 50 25% 96%;
+    --primary: 50 85% 60%;
+    --primary-glow: 50 85% 75%;
+    --accent: 200 85% 70%;
+    --gradient-primary: var(--gradient-happy);
+  }
+
+  .theme-stressed {
+    --background: 220 15% 96%;
+    --primary: 220 25% 45%;
+    --primary-glow: 220 25% 60%;
+    --accent: 200 85% 60%;
+    --gradient-primary: var(--gradient-stressed);
+  }
+
+  .theme-sad {
+    --background: 270 15% 96%;
+    --primary: 270 35% 50%;
+    --primary-glow: 270 35% 65%;
+    --accent: 300 25% 60%;
+    --gradient-primary: var(--gradient-sad);
+  }
+
+  .theme-motivated {
+    --background: 160 20% 96%;
+    --primary: 160 50% 50%;
+    --primary-glow: 160 50% 65%;
+    --accent: 120 40% 60%;
+    --gradient-primary: var(--gradient-motivated);
+  }
+}
+
+@layer components {
+  /* Healing Animations */
+  .breathe {
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .pulse-healing {
+    animation: pulse-healing 2s ease-in-out infinite;
+  }
+
+  .glow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .glow-primary {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glow-healing {
+    box-shadow: var(--shadow-healing);
+  }
+
+  /* Mood Cards */
+  .mood-card {
+    @apply relative overflow-hidden rounded-2xl p-6 transition-all duration-300;
+    background: var(--gradient-primary);
+    backdrop-filter: blur(10px);
+  }
+
+  .mood-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Journal Entry */
+  .journal-entry {
+    @apply relative rounded-xl bg-card/70 p-4 backdrop-blur-sm border border-border/50;
+    transition: var(--transition-smooth);
+  }
+
+  .journal-entry:hover {
+    @apply bg-card/90 border-primary/20;
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* XP Progress Bar */
+  .xp-bar {
+    @apply relative h-2 bg-muted rounded-full overflow-hidden;
+  }
+
+  .xp-progress {
+    @apply h-full rounded-full bg-gradient-to-r from-healing to-primary;
+    animation: glow-pulse 2s ease-in-out infinite alternate;
+  }
 }
 
 @layer base {
@@ -101,5 +224,48 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted/30;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
+}
+
+/* Keyframe Animations */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-healing {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 hsl(var(--healing) / 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px hsl(var(--healing) / 0);
+  }
+}
+
+@keyframes glow-pulse {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(1.2); }
 }
