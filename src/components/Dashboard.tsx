@@ -12,10 +12,20 @@ import {
   Zap,
   Sun,
   Moon,
-  Activity
+  Activity,
+  Gamepad2,
+  Music,
+  MessageCircle,
+  BarChart3,
+  Phone
 } from "lucide-react";
 import MoodTracker from "./MoodTracker";
 import Journal from "./Journal";
+import TherapeuticGames from "./TherapeuticGames";
+import MusicTherapy from "./MusicTherapy";
+import MentalHealthChatbot from "./MentalHealthChatbot";
+import MentalHealthAnalyzer from "./MentalHealthAnalyzer";
+import EmergencySupport from "./EmergencySupport";
 
 interface UserProfile {
   name?: string;
@@ -24,6 +34,10 @@ interface UserProfile {
   streak: number;
   currentMood?: string;
   responseStyle: string;
+  mentalHealthHistory: string[];
+  currentTreatment: string;
+  medication: string;
+  crisisSupport: string;
 }
 
 interface MoodEntry {
@@ -56,7 +70,7 @@ export default function Dashboard({
   journalEntries, 
   moodHistory 
 }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<"mood" | "journal" | "insights">("mood");
+  const [activeTab, setActiveTab] = useState<"mood" | "journal" | "insights" | "games" | "music" | "chat" | "analyzer" | "emergency">("mood");
   const [currentTheme, setCurrentTheme] = useState("theme-calm");
 
   // Update theme based on most recent mood
@@ -152,23 +166,28 @@ export default function Dashboard({
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Navigation Tabs */}
-            <div className="flex space-x-1 bg-card/50 p-1 rounded-lg border border-border/50">
+            <div className="grid grid-cols-4 lg:grid-cols-8 gap-1 bg-card/50 p-1 rounded-lg border border-border/50">
               {[
-                { id: "mood", label: "Mood Tracker", icon: Heart },
+                { id: "mood", label: "Mood", icon: Heart },
                 { id: "journal", label: "Journal", icon: Brain },
-                { id: "insights", label: "Insights", icon: Sparkles }
+                { id: "games", label: "Games", icon: Gamepad2 },
+                { id: "music", label: "Music", icon: Music },
+                { id: "chat", label: "Chat", icon: MessageCircle },
+                { id: "analyzer", label: "Analysis", icon: BarChart3 },
+                { id: "insights", label: "Insights", icon: Sparkles },
+                { id: "emergency", label: "Help", icon: Phone }
               ].map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
                   onClick={() => setActiveTab(id as any)}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 ${
+                  className={`flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg transition-all duration-200 ${
                     activeTab === id
                       ? "bg-primary text-primary-foreground shadow-lg"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  <span className="font-medium">{label}</span>
+                  <span className="font-medium text-xs">{label}</span>
                 </button>
               ))}
             </div>
@@ -189,6 +208,21 @@ export default function Dashboard({
                   entries={journalEntries}
                 />
               )}
+              
+              {activeTab === "games" && <TherapeuticGames />}
+              
+              {activeTab === "music" && <MusicTherapy />}
+              
+              {activeTab === "chat" && <MentalHealthChatbot userProfile={profile} />}
+              
+              {activeTab === "analyzer" && (
+                <MentalHealthAnalyzer 
+                  moodHistory={moodHistory}
+                  journalEntries={journalEntries}
+                />
+              )}
+              
+              {activeTab === "emergency" && <EmergencySupport />}
               
               {activeTab === "insights" && (
                 <div className="space-y-6">
@@ -313,10 +347,26 @@ export default function Dashboard({
                 <Button 
                   variant="outline" 
                   className="w-full justify-start"
-                  onClick={() => setActiveTab("journal")}
+                  onClick={() => setActiveTab("games")}
                 >
-                  <Brain className="w-4 h-4 mr-2" />
-                  Write in Journal
+                  <Gamepad2 className="w-4 h-4 mr-2" />
+                  Play Therapeutic Games
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setActiveTab("music")}
+                >
+                  <Music className="w-4 h-4 mr-2" />
+                  Sound Therapy
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setActiveTab("chat")}
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Chat Support
                 </Button>
               </CardContent>
             </Card>
